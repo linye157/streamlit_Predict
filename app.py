@@ -115,15 +115,15 @@ if st.session_state.current_page == "首页":
             st.error("测试数据未加载")
 
 # Render the appropriate module based on the selection
-elif "机器学习子系统 > 系统接口" in st.session_state.current_page:
+elif st.session_state.current_page == "机器学习子系统 > 系统接口":
     DataProcessingModule().render()
-elif "机器学习子系统 > 机器学习" in st.session_state.current_page:
+elif st.session_state.current_page == "机器学习子系统 > 机器学习":
     MachineLearningModule().render()
-elif "机器学习子系统 > 机器学习Stacking集成" in st.session_state.current_page:
+elif st.session_state.current_page == "机器学习子系统 > 机器学习Stacking集成":
     StackingEnsembleModule().render()
-elif "机器学习子系统 > 自动化机器学习" in st.session_state.current_page:
+elif st.session_state.current_page == "机器学习子系统 > 自动化机器学习":
     AutoMLModule().render()
-elif "用户交互子系统 > 可视化分析" in st.session_state.current_page:
+elif st.session_state.current_page == "用户交互子系统 > 可视化分析":
     VisualizationModule().render()
-elif "用户交互子系统 > 报表" in st.session_state.current_page:
-    ReportModule().render() 
+elif st.session_state.current_page == "用户交互子系统 > 报表":
+    ReportModule().render()

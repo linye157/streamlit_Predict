@@ -129,7 +129,7 @@ class MachineLearningModule:
         
         with col2:
             min_samples_leaf = st.slider("最小叶子结点样本数", min_value=1, max_value=20, value=1, step=1)
-            max_features = st.selectbox("最大特征数", ["auto", "sqrt", "log2", None], index=0)
+            max_features = st.selectbox("最大特征数", ["sqrt", "log2", None], index=0)
             random_state = st.number_input("随机种子", min_value=0, max_value=1000, value=42, key="rf_random_state")
         
         if st.button("训练随机森林模型"):
