@@ -51,15 +51,9 @@ streamlit run app.py
 
 同时系统也支持用户自行上传自定义数据集用于训练和测试。
 
-
 ## 系统要求
 
 - Python 3.7+
 - 依赖包参见 requirements.txt
 
 ## TODO
-1. 可视化
-2. 迁移VUE
-3. 沟通课题--黄君
-
-
