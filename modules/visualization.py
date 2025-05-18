@@ -10,6 +10,7 @@ import io
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from sklearn.preprocessing import StandardScaler
+import plotly.figure_factory as ff
 
 class VisualizationModule:
     def __init__(self):
