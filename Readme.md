@@ -57,3 +57,5 @@ streamlit run app.py
 - 依赖包参见 requirements.txt
 
 ## TODO
+1. 汇报相关功能
+2. 毕业课题和小论文相关要求目前企业导师不清楚，可能后续需要讨论

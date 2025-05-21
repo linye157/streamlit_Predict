@@ -231,6 +231,14 @@ class VisualizationModule:
                 st.plotly_chart(fig, use_container_width=True)
             
             elif relation_viz_type == "箱体图":
+                # Option to display continuous features
+                show_continuous = st.checkbox("显示连续型特征的箱体图", value=False)
+                
+                # Options for binning continuous features
+                if show_continuous:
+                    bin_continuous = st.checkbox("对连续型特征进行分箱", value=True)
+                    num_bins = st.slider("分箱数量", min_value=3, max_value=20, value=5)
+                
                 # Create box plots for categorical features
                 for feature in selected_features:
                     # Check if feature has less than 10 unique values
@@ -243,6 +251,63 @@ class VisualizationModule:
                             color=feature
                         )
                         st.plotly_chart(fig, use_container_width=True)
+                    # For continuous features
+                    elif show_continuous:
+                        if bin_continuous:
+                            # Create a copy to avoid modifying original data
+                            plot_data = data.copy()
+                            # Create bins for continuous feature
+                            try:
+                                # Remove NaN and infinite values for binning
+                                valid_data = plot_data[~np.isnan(plot_data[feature]) & ~np.isinf(plot_data[feature])]
+                                if len(valid_data) > num_bins:  # Ensure we have enough data points for the requested bins
+                                    plot_data[f"{feature}_binned"] = pd.qcut(
+                                        plot_data[feature], 
+                                        q=num_bins, 
+                                        duplicates='drop'
+                                    ).astype(str)
+                                    
+                                    # Create box plot with binned feature
+                                    fig = px.box(
+                                        plot_data,
+                                        x=f"{feature}_binned",
+                                        y=selected_target,
+                                        title=f"{selected_target} by {feature} (分箱)",
+                                        color=f"{feature}_binned"
+                                    )
+                                    st.plotly_chart(fig, use_container_width=True)
+                                else:
+                                    st.warning(f"特征 {feature} 有效数据点不足，无法进行 {num_bins} 分箱")
+                                    # Fall back to direct plot
+                                    fig = px.box(
+                                        data,
+                                        x=feature,
+                                        y=selected_target,
+                                        title=f"{selected_target} by {feature}",
+                                        color=feature
+                                    )
+                                    st.plotly_chart(fig, use_container_width=True)
+                            except Exception as e:
+                                st.warning(f"为特征 {feature} 创建分箱时出错: {str(e)}")
+                                # Fall back to direct plot
+                                fig = px.box(
+                                    data,
+                                    x=feature,
+                                    y=selected_target,
+                                    title=f"{selected_target} by {feature}",
+                                    color=feature
+                                )
+                                st.plotly_chart(fig, use_container_width=True)
+                        else:
+                            # Direct box plot for continuous feature
+                            fig = px.box(
+                                data,
+                                x=feature,
+                                y=selected_target,
+                                title=f"{selected_target} by {feature}",
+                                color=feature
+                            )
+                            st.plotly_chart(fig, use_container_width=True)
                     else:
                         st.info(f"跳过 {feature} (连续型特征)")
         
